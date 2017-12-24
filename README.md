@@ -57,7 +57,7 @@ If notes seem missing, check your score against the syntax above and replace unk
 
 ### Features & limitations
 - This library was tested in the Arduino IDE v1.6.10 and v1.8.2. The current version of this library supports ESP8266, Atmel ATmega328 and ATmega168 MCUs. Support for ATtiny85 was also added, but since the ATtiny85 has limited resources, available memory limits it usage to simple applications.
-- This version currently supports multi-channel playback, but performance is depending on the capabilities of the output device.
+- This version currently supports multi-channel playback, but performance is depending on the capabilities of the output device. Unless specified explicitely, each track uses default settings for tempo, volume, length and octave. Some downloaded multiple track MML music assumes subsequent tracks to use the settings of the first track, but the current implementation doesn't support such behavior.
 - Known bug: when ending the play-string with a number (eg. "T120 O4 G16") the player may read beyond the end of the string and play whatever is next in memory. Workaround: use alternative notation (eg. "T120 O4 L16 G") or an addional terminator (eg. "T120 O4 G16\0").
 
 ### Credits
@@ -77,3 +77,5 @@ Ported from mBed to Arduino by MMOLE (maxint-rd), inherited Apache license.
 - Info about using PWM and other methods to generate sound:<br>
    https://developer.mbed.org/users/4180_1/notebook/using-a-speaker-for-audio-output/
 
+### Disclaimer
+- All code on this GitHub account, including this library is provided to you on an as-is basis without guarantees and with all liability dismissed. It may be used at your own risk. Unfortunately I have no means to provide support.
