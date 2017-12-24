@@ -14,7 +14,7 @@ Initialisation outside of Setup():
 ```
   // include header and initialize class
   #include <MmlMusic.h>
-  MusicEngine music();
+  MmlMusic music();
 ```
 
 Then to play music, call the play method where you want:
