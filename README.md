@@ -22,6 +22,13 @@ Then to play music, call the play method where you want:
 music.play("T240 L16 O6 C D E F G");
 ```
 
+To continue playing the rest of the sequence, regular calls to continuePlaying() must be made, either in a timer interrupt or as part of a loop.
+```
+music.continuePlaying();
+```
+
+See the included examples for more detailed instructions on how to use this library.
+
 ### Supported MML Syntax
 Short syntax overview:<br>
 
@@ -62,11 +69,11 @@ see https://developer.mbed.org/users/taylorza/code/MusicEngine/<br>
 Ported from mBed to Arduino by MMOLE (maxint-rd), inherited Apache license.
 
 ### Links
-Learn more about Music Macro Language (MML) on wikipedia:<br>
+- Learn more about Music Macro Language (MML) on wikipedia:<br>
    http://en.wikipedia.org/wiki/Music_Macro_Language<br>
-   For downloadable MML music see http://www.archeagemmllibrary.com/<br>
-Extensive MML reference guide (not all commands supported):<br>
+- For downloadable MML music see http://www.archeagemmllibrary.com/<br>
+- Extensive MML reference guide (not all commands supported):<br>
    http://woolyss.com/chipmusic/chipmusic-mml/ppmck_guide.php<br>
-Info about using PWM and other methods to generate sound:<br>
+- Info about using PWM and other methods to generate sound:<br>
    https://developer.mbed.org/users/4180_1/notebook/using-a-speaker-for-audio-output/
 
