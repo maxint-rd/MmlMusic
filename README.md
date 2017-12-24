@@ -5,7 +5,7 @@ Arduino library to play multi-track MML music using different sound devices.
 This library is a follow-up of the [ESP-MusicEngine library](https://github.com/maxint-rd/ESP-MusicEngine). It provides a device independant base to implement playing MML music on different MCUs using various devices.
 
 ### Device independant base class
-Note that the library requires additional code via callback functions or an inherited child class to implement the actual production of sound on a particular device. The SN76489_MmlMusic example demonstrates using a callback function to produce multiple voice music on the SN76489 complex sound generator. The MmlMusicPWM library implements a child class using which you can play single voice music through a piezo speaker connected to an output pin.
+Note that the library requires additional code via callback functions or an inherited child class to implement the actual production of sound on a particular device. The SN76489_MmlMusic example demonstrates using a callback function to produce multiple voice music on the SN76489 complex sound generator using the [mxUnifiedSN76489 library](https://github.com/maxint-rd/mxUnifiedSN76489). The [MmlMusicPWM](https://github.com/maxint-rd/MmlMusicPWM) library implements a child class using which you can play single voice music through a piezo speaker connected to an output pin.
 
 ### Installation/Usage
 The current version can be downloaded as an Arduino library using the Sketch|Library menu. Just add the zipfile library and the enclosed examples should appear in the menu automatically. 
