@@ -2,7 +2,7 @@
  * MML Music Tone example
  * MmlMusic library example for Arduino IDE
  * 
- * Tbis example demonstrates playing MML music on a piezo speaker
+ * This example demonstrates playing MML music on a piezo speaker
  * using the Arduino tone() function.
  * A callback function is defined to call the tone()/noTone() functions.
  * 
@@ -18,7 +18,7 @@
 // Include header files for the used libraries
 #include <MmlMusic.h>
 
-#if defined(MXUNIFIED_ATTINY)
+#if defined(__AVR_ATtiny85__)
   // ATtiny85 has no regular hardware serial. You can use TinyDebugSerial (TX=3) or software serial
   // For more info see  http://www.ernstc.dk/arduino/tinycom.html
   //#include <SoftwareSerial.h>
@@ -27,11 +27,18 @@
   #include <TinyDebugSerial.h>
   TinyDebugSerial mySerial = TinyDebugSerial();   // Debug TX on PB3, no RX, only 9600, 38400 or 115200
   #define Serial mySerial
+  // To use the Arduino tone() function on ATtiny85 the board core needs to support it.
+  // Note that the Arduino tone() function is not supported in the standard Arduino "core" for ATtiny85 by D.A. Mellis.
+  // Alternative cores: http://www.leonardomiliani.com/en/ , https://github.com/SpenceKonde/ATTinyCore
+  #define BUZ_PIN 1
+#elif defined(ARDUINO_ARCH_ESP8266)
+  #define BUZ_PIN 14
+#else
+  #define BUZ_PIN 4  // pin 4 recommended on Pro Mini since it has perfect distance from GND
 #endif
 
 // define the MML Music object
 MmlMusic music;    // Note: don't use empty parenthesis () to use the (void) constructor; this will confuse the compiler.
-#define BUZ_PIN 14      // pin 4 recommended on Pro Mini since it has perfect distance from GND
 
 // To play the tones using tone() a callback functions are  used.
 // These are also used to display debug information on the serial console
@@ -73,6 +80,8 @@ bool MyToneCallback(unsigned int frequency, unsigned long length, uint8_t nTrack
 #if !defined(FPSTR)
 #define FPSTR(pstr_pointer) (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))
 #endif
+// Unfortunately the definition above won't compile on Arduino IDE 1.6.7. It will compile in IDE 1.8.2
+// You can upgrade or remove this code and the use of MyPlayCallback below.
 
 // Callback functions can also be set to indicate start or end of playing the music sequence
 void MyPlayCallback(const char* mml, bool fUseFlash)
@@ -109,7 +118,7 @@ const char szPlay[] PROGMEM="v127t100l4o4 r g>c2d.d16+f16d+2<g.l8g>c4.dd+<d+>l12
 
 /**/
 // Star Wars Theme (originally three tracks, only one played. Short version is for ATtiny85.
-// const char szPlay2[] PROGMEM="T107o6c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>f16e16d16c16<g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.>c2<g4f16.e16f16.d4<g4g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16."
+//const char szPlay[] PROGMEM="T107o6c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>f16e16d16c16<g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.>c2<g4f16.e16f16.d4<g4g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.";
 const char szPlay[] PROGMEM="T107o5c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>f16e16d16c16<g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.>c2<g4f16.e16f16.d4<g4g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.>c2<g4>d16.c16<b16.>c4<c16.c16c16.c4";
 /**/
 
@@ -125,7 +134,8 @@ void setup()
 
   // Start playing some music (if impatient use the short tune of the lower line).
   music.play_P(szPlay);
-  //music.play_P("T180 L8 CDEC. r CDEC. r EFG. r EFG. r GAGFEC. r GAGFEC. r L4 C<A>C. r C<A>C.");
+  //music.play_P(PSTR("T180 L8 CDEC. r CDEC. r EFG. r EFG. r GAGFEC. r GAGFEC. r L4 C<A>C. r C<A>C."));
+  //music.play("T180 L8 CDEC. r CDEC. r EFG. r EFG. r GAGFEC. r GAGFEC. r L4 C<A>C. r C<A>C.");
 }
 
 // the loop function runs over and over again forever
@@ -140,6 +150,3 @@ void loop()
     delayR(1000);   // use alternative delay to continue playing as needed
   }
 }
-
-
-
