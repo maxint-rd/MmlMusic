@@ -2,7 +2,7 @@
  * MML Music Tone example
  * MmlMusic library example for Arduino IDE
  * 
- * This example demonstrates playing MML music on a piezo speaker
+ * Tbis example demonstrates playing MML music on a piezo speaker
  * using the Arduino tone() function.
  * A callback function is defined to call the tone()/noTone() functions.
  * 
@@ -133,8 +133,8 @@ void setup()
   music.setCompletionCallback(MyCompletionCallback);
 
   // Start playing some music (if impatient use the short tune of the lower line).
-  music.play_P(szPlay);
-  //music.play_P(PSTR("T180 L8 CDEC. r CDEC. r EFG. r EFG. r GAGFEC. r GAGFEC. r L4 C<A>C. r C<A>C."));
+  //music.play_P(szPlay);
+  music.play_P(PSTR("T180 L8 CDEC. r CDEC. r EFG. r EFG. r GAGFEC. r GAGFEC. r L4 C<A>C. r C<A>C."));
   //music.play("T180 L8 CDEC. r CDEC. r EFG. r EFG. r GAGFEC. r GAGFEC. r L4 C<A>C. r C<A>C.");
 }
 
@@ -150,3 +150,6 @@ void loop()
     delayR(1000);   // use alternative delay to continue playing as needed
   }
 }
+
+
+
