@@ -34,7 +34,7 @@
 #elif defined(ARDUINO_ARCH_ESP8266)
   #define BUZ_PIN 14
 #else
-  #define BUZ_PIN 4  // pin 4 recommended on Pro Mini since it has perfect distance from GND
+  #define BUZ_PIN 4  // pin 4 recommended on Pro Mini/Nano since it has perfect piezo speaker distance to GND
 #endif
 
 // define the MML Music object
@@ -119,13 +119,13 @@ const char szPlay[] PROGMEM="v127t100l4o4 r g>c2d.d16+f16d+2<g.l8g>c4.dd+<d+>l12
 /**/
 // Star Wars Theme (originally three tracks, only one played. Short version is for ATtiny85.
 //const char szPlay[] PROGMEM="T107o6c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>f16e16d16c16<g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.>c2<g4f16.e16f16.d4<g4g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.";
-const char szPlay[] PROGMEM="T107o5c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>f16e16d16c16<g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.>c2<g4f16.e16f16.d4<g4g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.>c2<g4>d16.c16<b16.>c4<c16.c16c16.c4";
+const char szPlay[] PROGMEM="T107o5c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>c16<b16a16g16>f16e16d16c16c16<b16a16g16>c16<b16a16g16>f16e16d16c16<g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.>c2<g4f16.e16f16.d4<g4g16.g16g16.>c2g2f16.e16d16.>c2<g4f16.e16d16.>c2<g4>d16.c16<b16.>c4<c16.c16c16.c4 r";
 /**/
 
 void setup()
 {
   Serial.begin(115200);
-  Serial.println(F("\n -- mxUnifiedSN76489 MML Music Tone example --"));
+  Serial.println(F("\n -- MML Music Tone example --"));
 
   // set callback functions
   music.setPlayCallback(MyPlayCallback);
@@ -133,8 +133,8 @@ void setup()
   music.setCompletionCallback(MyCompletionCallback);
 
   // Start playing some music (if impatient use the short tune of the lower line).
-  //music.play_P(szPlay);
-  music.play_P(PSTR("T180 L8 CDEC. r CDEC. r EFG. r EFG. r GAGFEC. r GAGFEC. r L4 C<A>C. r C<A>C."));
+  music.play_P(szPlay);
+  //music.play_P(PSTR("T180 L8 CDEC. r CDEC. r EFG. r EFG. r GAGFEC. r GAGFEC. r L4 C<A>C. r C<A>C."));
   //music.play("T180 L8 CDEC. r CDEC. r EFG. r EFG. r GAGFEC. r GAGFEC. r L4 C<A>C. r C<A>C.");
 }
 
