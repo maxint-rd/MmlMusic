@@ -116,8 +116,9 @@ void MmlMusic::waitTone(unsigned long length, uint8_t nTrack)	// defaults: lengt
 
 void MmlMusic::playMML(const char* mml)
 {
-		//Serial.print(F("MmlMusic play:"));
-		//Serial.println(mml);
+//Serial.print(F("--DEBUG MmlMusic play:"));
+//Serial.print(mml);
+//Serial.println(F("--"));
     //    __disable_irq();
 		//noInterrupts();
 #if(OPT_MMLMUSIC_PLAYCALLBACK)
@@ -303,6 +304,18 @@ void MmlMusicTrack::executeCommandTrack(MmlMusic *pMusic)
                 if (isdigit(peekChar())) {
                     duration = WHOLE_NOTE_DURATION / getNumber(1, 64);
                 }
+
+#if defined (ARDUINO_ARCH_ESP8266)
+// ESP8266 cores 2.5.1 and 2.5.2 have an alignment issue causing incorrect reading of floats in PROGMEM
+// See https://github.com/esp8266/Arduino/issues/5628 and https://github.com/esp8266/Arduino/pull/5692
+// by default the 2.5.1 and 2.5.2 cores use pgm_read_float_unaligned() but then the PROGMEM floats are not properly read.
+// TODO: making the note array uint16_t may make the library faster and smaller (better for ATtiny's)
+//#define pgm_read_float(addr)            (*reinterpret_cast<const float*>(addr))			 //dw fixed
+//#define pgm_read_float(addr)            (*(const float*)(addr))				// dw fixed
+#if defined(pgm_read_float_aligned)
+	#define pgm_read_float(addr)            pgm_read_float_aligned(addr)
+#endif
+#endif
 
                 if (freqIndex != NOTE_REST || (fCminus && _octave > 0)) {
                     float ftFreq = pgm_read_float(&FREQ_TABLE[freqIndex + (_octave * 12)]);
