@@ -46,7 +46,7 @@ Command | Description
 &nbsp;  &plus;    | Alternative for #<br>
 &nbsp;  &minus;   | Play flat note. Example: D-<br>
 &nbsp;  R    | Rest. Example:  CDEC r CDEC<br>
-&nbsp;  P    | Alternative for R. Example:  CDEC p CDEC<br>
+&nbsp;  P    | Pause. Alternative for R. Example:  CDEC p CDEC<br>
 &nbsp;  .    | Longer note. Example: CDEC.&nbsp;<br>
 &nbsp;  &gt; | shift octave up.  Example: CDE&gt;CDE.&nbsp;<br>
 &nbsp;  &lt; | shift octave down.  Example: CDE&lt;CDE.&nbsp;<br>
@@ -58,7 +58,7 @@ If notes seem missing, check your score against the syntax above and replace unk
 ### Features & limitations
 - This library was tested in the Arduino IDE v1.6.10 and v1.8.2. The current version of this library supports ESP8266, Atmel ATmega328 and ATmega168 MCUs. Support for ATtiny85 was also added, but since the ATtiny85 has limited resources, available memory limits it usage to simple applications.
 - This version currently supports multi-channel playback, but performance is depending on the capabilities of the output device. Unless specified explicitely, each track uses default settings for tempo, volume, length and octave. Some downloaded multiple track MML music assumes subsequent tracks to use the settings of the first track, but the current implementation doesn't support such behavior.
-- Known bug: when ending the play-string with a number (eg. "T120 O4 G16") the player may read beyond the end of the string and play whatever is next in memory. Workaround: use alternative notation (eg. "T120 O4 L16 G") or an addional terminator (eg. "T120 O4 G16\0").
+- Track synchronization is not implemented (yet) and the synchronization bar | is not supported.
 
 ### Credits
 This library is based on the MusicEngine library ported from mBed to Arduino. It is a follow-up of the [ESP-MusicEngine library](https://github.com/maxint-rd/ESP-MusicEngine).
