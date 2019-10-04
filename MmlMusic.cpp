@@ -264,7 +264,7 @@ void MmlMusicTrack::executeCommandTrack(MmlMusic *pMusic)
             case ',':		// track ends where new track starts
                 _isPlaying = false;
                 break;
-            }
+            }	// switch (getChar())
             if (!_isPlaying) {
                 //_pwm.period_ms(1);
                 //_pwm.write(0.0);
@@ -307,19 +307,17 @@ void MmlMusicTrack::executeCommandTrack(MmlMusic *pMusic)
 
 #if defined (ARDUINO_ARCH_ESP8266)
 // ESP8266 cores 2.5.1 and 2.5.2 have an alignment issue causing incorrect reading of floats in PROGMEM
-// See https://github.com/esp8266/Arduino/issues/5628 and https://github.com/esp8266/Arduino/pull/5692
-// by default the 2.5.1 and 2.5.2 cores use pgm_read_float_unaligned() but then the PROGMEM floats are not properly read.
-// TODO: making the note array uint16_t may make the library faster and smaller (better for ATtiny's)
-//#define pgm_read_float(addr)            (*reinterpret_cast<const float*>(addr))			 //dw fixed
-//#define pgm_read_float(addr)            (*(const float*)(addr))				// dw fixed
+// By default the 2.5.1 and 2.5.2 cores use pgm_read_float_unaligned() but then the PROGMEM floats are not properly read.
+// See reported issue https://github.com/esp8266/Arduino/issues/6590 and fix in newer version https://github.com/esp8266/Arduino/pull/6593
+// See also https://github.com/esp8266/Arduino/issues/5628 and https://github.com/esp8266/Arduino/pull/5692
 #if defined(pgm_read_float_aligned)
 	#define pgm_read_float(addr)            pgm_read_float_aligned(addr)
 #endif
 #endif
+// TODO: making the note array uint16_t may make the library faster and smaller (better for ATtiny's)
 
                 if (freqIndex != NOTE_REST || (fCminus && _octave > 0)) {
                     float ftFreq = pgm_read_float(&FREQ_TABLE[freqIndex + (_octave * 12)]);
-                    
                     if (fCminus)
                         ftFreq = pgm_read_float(&FREQ_TABLE[NOTE_B + ((_octave - 1) * 12)]);
                         // MMOLE: ugly fix: play C- as B in lower octave
@@ -332,7 +330,7 @@ void MmlMusicTrack::executeCommandTrack(MmlMusic *pMusic)
                 _pause=duration * durationRatio;
 								pMusic->waitTone(_pause*1000, _nTrack);		// schedule to wait until tone is done
                 _pause = duration * (1 - durationRatio);
-            }
+            } // if (freqIndex != -1) 
         } while (freqIndex == -1);
     }
 }
@@ -341,14 +339,17 @@ int MmlMusicTrack::getNumber(int min, int max)
 {
     char ch;
     int value = 0;
-    while ((ch = getChar()) != 0) {
+		// fixed issue #1: reading beyond end after number due to missing rewind
+    do
+    {
+    		ch = getChar();
         if (!isdigit(ch)) {
-            rewind();
+            rewind();	// no digit, also rewind for \0
             break;
         }
         int digit = (int)ch - 48;
         value = (value * 10) + digit;
-    }
+    } while (true);
     value = value < min ? min : value > max ? max : value;
     return value;
 }
