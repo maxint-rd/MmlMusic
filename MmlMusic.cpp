@@ -326,6 +326,8 @@ void MmlMusicTrack::executeCommandTrack(MmlMusic *pMusic)
 										//pMusic->tone((unsigned int)ftFreq);		// start playing the new tone
 										pMusic->tone((unsigned int)ftFreq, 0, _nTrack, _volume);		// start playing the new tone
                 }
+                else if(freqIndex == NOTE_REST)
+										pMusic->tone(0, 0, _nTrack, _volume);		// stop playing the current tone
                 duration *= (QUARTER_NOTES_PER_MINUTE / _tempo);
                 _pause=duration * durationRatio;
 								pMusic->waitTone(_pause*1000, _nTrack);		// schedule to wait until tone is done
