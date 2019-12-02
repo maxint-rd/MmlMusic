@@ -109,7 +109,7 @@ void MmlMusic::noTone(uint8_t nTrack)		// default nTrack=0
 
 void MmlMusic::waitTone(unsigned long length, uint8_t nTrack)	// defaults: length=0,	nTrack=0
 {		// schedule wait time. length is specified in msec
-		tracks[nTrack]._ulNextTimeMS=millis()+length;
+		tracks[nTrack]._ulNextTimeMS+=length;		// improved track synchronization by using previous time instead of millis()
 		playToneWithCB(0, length, nTrack);
 }
 
