@@ -80,7 +80,7 @@ public:
       * @param mml string of MML commands to be played
      */
     void play(const char* mml);
-    void play_P(const char* mml);
+    void play(const __FlashStringHelper* mml);
 
     /** Stop a currently playing sequence */
     void stop();
