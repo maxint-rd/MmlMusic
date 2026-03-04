@@ -139,10 +139,10 @@ void MmlMusic::play(const char* mml)
 	playMML(mml);
 }
 
-void MmlMusic::play_P(const char* mml)
+void MmlMusic::play(const __FlashStringHelper* mml)
 {
 	_fUseFlash=true;
-	playMML(mml);
+	playMML((const char* )mml);
 }
 
 void MmlMusic::stop()
