@@ -81,6 +81,10 @@ public:
      */
     void play(const char* mml);
     void play(const __FlashStringHelper* mml);
+    void play_P(const __FlashStringHelper* mml) /* for backward compatibility */
+    {
+		play(mml);
+	}
 
     /** Stop a currently playing sequence */
     void stop();
